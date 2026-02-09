@@ -3,101 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заметки Vue.js</title>
+    <title>BW Task Manager</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
 <body>
 
 <div id="app">
-    <div class="form-wrapper">
-        <h2>Создать новую заметку</h2>
-        <div class="note-form">
-            <input type="text" v-model="newTitle" placeholder="Введите заголовок" class="input-title">
+    
+    <header class="app-header">
+        <h1>TASK_MANAGER_V1.0</h1>
+    </header>
+
+    <div class="main-container">
+        <div class="control-panel">
+            <div class="panel-header">CREATE_NEW_TASK</div>
             
-            <div class="todo-list-creator">
-                <div v-for="(todo, index) in newTodos" :key="index" class="todo-input-group">
-                    <input type="text" v-model="todo.text" placeholder="Пункт задачи">
-                    <button @click="removeTodoInput(index)" v-if="newTodos.length > 3" class="btn-remove">x</button>
-                </div>
-            </div>
-
-            <div class="form-controls">
-                <button @click="addTodoInput" v-if="newTodos.length < 5" class="btn-small">+ Добавить пункт</button>
-                <button 
-                    @click="addNote" 
-                    class="btn-create"
-                    :disabled="!isFormValid || col1.length >= 3 || isBlocked"
-                >
-                    <span v-if="isBlocked">Блокировано (задачи во 2 столбце)</span>
-                    <span v-else-if="col1.length >= 3">1 столбец переполнен</span>
-                    <span v-else>Создать карточку</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="columns">
-        <div class="col" :class="{ 'blocked': isBlocked }">
-            <div class="col-header" style="background-color: #ff6b6b;">
-                <h3>Новые ({{ col1.length }}/3)</h3>
-            </div>
-            <div class="col-body">
-                <div v-if="isBlocked" class="blocked-overlay">Блокировано</div>
+            <div class="form-body">
+                <input type="text" v-model="newTitle" placeholder="> ENTER TITLE..." class="input-title">
                 
-                <div class="card" v-for="note in col1" :key="note.id">
-                    <h4>{{ note.title }}</h4>
-                    <ul>
-                        <li v-for="(item, idx) in note.items" :key="idx">
-                            <input 
-                                type="checkbox" 
-                                v-model="item.checked" 
-                                @change="checkStatus(note, 1)"
-                                :disabled="isBlocked"
-                            >
-                            <span>{{ item.text }}</span>
-                        </li>
-                    </ul>
+                <div class="todo-list">
+                    <div v-for="(todo, index) in newTodos" :key="index" class="input-row">
+                        <span class="prefix">[ ]</span>
+                        <input type="text" v-model="todo.text" placeholder="TASK ITEM...">
+                        <button @click="removeTodoInput(index)" v-if="newTodos.length > 3" class="btn-del">X</button>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button @click="addTodoInput" v-if="newTodos.length < 5" class="btn-secondary">+ ADD ITEM</button>
+                    
+                    <button 
+                        @click="addNote" 
+                        class="btn-primary"
+                        :disabled="!isFormValid || col1.length >= 3 || isBlocked"
+                    >
+                        <span v-if="isBlocked">System Blocked</span>
+                        <span v-else-if="col1.length >= 3">Col_1 Full</span>
+                        <span v-else>EXECUTE ADD</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="col-header" style="background-color: #4ecdc4;">
-                <h3>В процессе ({{ col2.length }}/5)</h3>
-            </div>
-            <div class="col-body">
-                <div class="card" v-for="note in col2" :key="note.id">
-                    <h4>{{ note.title }}</h4>
-                    <ul>
-                        <li v-for="(item, idx) in note.items" :key="idx">
-                            <input 
-                                type="checkbox" 
-                                v-model="item.checked" 
-                                @change="checkStatus(note, 2)"
-                            >
-                            <span>{{ item.text }}</span>
-                        </li>
-                    </ul>
+        <div class="board">
+            <div class="col" :class="{ 'blocked': isBlocked }">
+                <div class="col-head">
+                    <span>01. NEW</span>
+                    <span class="counter">[{{ col1.length }}/3]</span>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-header" style="background-color: #1a535c; color: white;">
-                <h3>Завершенные</h3>
-            </div>
-            <div class="col-body">
-                <div class="card completed-card" v-for="note in col3" :key="note.id">
-                    <h4>{{ note.title }}</h4>
-                    <ul>
-                        <li v-for="(item, idx) in note.items" :key="idx">
-                            <input type="checkbox" checked disabled>
-                            <span>{{ item.text }}</span>
-                        </li>
-                    </ul>
-                    <div class="timestamp">
-                        Завершено: <br> {{ note.completedAt }}
+                <div class="col-content">
+                    <div v-if="isBlocked" class="alert-box">
+                        !!! BLOCKED: CLEAR COL_02 !!!
+                    </div>
+
+                    <div class="card" v-for="note in col1" :key="note.id">
+                        <div class="card-title">{{ note.title }}</div>
+                        <div class="card-items">
+                            <div v-for="(item, idx) in note.items" :key="idx" class="check-item">
+                                <input 
+                                    type="checkbox" 
+                                    v-model="item.checked" 
+                                    @change="checkStatus(note, 1)"
+                                    :disabled="isBlocked"
+                                    :id="'c1-'+note.id+'-'+idx"
+                                >
+                                <label :for="'c1-'+note.id+'-'+idx">{{ item.text }}</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col">
+                <div class="col-head">
+                    <span>02. PROCESSING</span>
+                    <span class="counter">[{{ col2.length }}/5]</span>
+                </div>
+                <div class="col-content">
+                    <div class="card" v-for="note in col2" :key="note.id">
+                        <div class="card-title">{{ note.title }}</div>
+                        <div class="card-items">
+                            <div v-for="(item, idx) in note.items" :key="idx" class="check-item">
+                                <input 
+                                    type="checkbox" 
+                                    v-model="item.checked" 
+                                    @change="checkStatus(note, 2)"
+                                    :id="'c2-'+note.id+'-'+idx"
+                                >
+                                <label :for="'c2-'+note.id+'-'+idx">{{ item.text }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-done">
+                <div class="col-head">
+                    <span>03. COMPLETED</span>
+                    <span class="counter">[{{ col3.length }}]</span>
+                </div>
+                <div class="col-content">
+                    <div class="card card-finished" v-for="note in col3" :key="note.id">
+                        <div class="card-title">{{ note.title }}</div>
+                        <div class="card-items">
+                            <div v-for="(item, idx) in note.items" :key="idx" class="check-item">
+                                <input type="checkbox" checked disabled>
+                                <label class="strike">{{ item.text }}</label>
+                            </div>
+                        </div>
+                        <div class="timestamp">
+                            END_TIME: {{ note.completedAt }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
