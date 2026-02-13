@@ -23,7 +23,7 @@ Vue.component('note-card', {
                     type="checkbox"
                     v-model="item.checked"
                     @change="handleCheck(index)"
-                    :disabled="isDisabled">
+                    :disabled="card.items.length < 3 || isDisabled">
                 <span :class="{'checked': item.checked}">
                     {{ item.text }}
                 </span>
@@ -62,7 +62,7 @@ Vue.component('note-card', {
                 this.card.items.length <= this.maxItems
         },
         canAddItem() {
-            return this.card.items.length < this.maxItems
+            return this.card.items.length <= this.maxItems - 1
         },
         totalItems() {
             return this.card.items.length
@@ -134,8 +134,8 @@ Vue.component('notes-board', {
           <p>Первый столбец заблокирован. Дождитесь завершения карточки во втором столбце</p>
         </div>
         <note-card 
-          v-for="card in firstColumnCards" 
-          :key="card.id" 
+          v-for="card in firstColumnCards"
+          :key="card.id"
           :card="card"
           :isDisabled="isColumn1Blocked"
           @item-check="handleCardProgress"
@@ -147,8 +147,8 @@ Vue.component('notes-board', {
       <div class="column">
         <h3>Заметка выполненная наполовину</h3>
         <note-card 
-          v-for="card in secondColumnCards" 
-          :key="card.id" 
+          v-for="card in secondColumnCards"
+          :key="card.id"
           :card="card"
           :isDisabled="false"
           @item-check="handleCardProgress"
@@ -160,13 +160,12 @@ Vue.component('notes-board', {
       <div class="column">
         <h3>Выполненные заметки</h3>
         <note-card 
-          v-for="card in thirdColumnCards" 
-          :key="card.id" 
+          v-for="card in thirdColumnCards"
+          :key="card.id"
           :card="card"
           :isDisabled="false"
           @item-check="handleCardProgress"
         ></note-card>
-        <button @click="addCard(3)">+ Add Note</button>
       </div>
     </div>
   `,
