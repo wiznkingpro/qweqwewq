@@ -7,6 +7,13 @@ Vue.component('note-card', {
                 @blur="updateTitle" 
                 @keydown.enter.prevent="finishEditing"
             >{{ card.title }}</h3>
+            
+            <div class="items-count"> 
+                <span v-if="!isValidItemCount" class="error-text">
+                    от 3-5 пунктов
+                </span>
+            </div>
+            
             <div v-for="(item, index) in card.items" :key="index" class="list-item">
                 <input
                 type="checkbox"
@@ -33,6 +40,22 @@ Vue.component('note-card', {
         }
     },
     computed: {
+        minItems() {
+            return 3
+        },
+        maxItems() {
+            return 5
+        },
+        isValidItemCount() {
+            return this.card.items.length >= this.minItems &&
+                this.card.items.length <= this.maxItems
+        },
+        canAddItem() {
+            return this.card.items.length < this.maxItems
+        },
+        canRemoveItem() {
+            return this.card.items.length > this.minItems
+        },
         totalItems() {
             return this.card.items.length
         },
@@ -65,7 +88,6 @@ Vue.component('note-card', {
             })
         }
     },
-
     methods: {
         addItem() {
             if (this.newItemText.trim()) {
@@ -194,11 +216,7 @@ Vue.component('notes-board', {
             if (card.column === 1 && progress === 100) {
                 if (this.secondColumnCards.length < 5) {
                     card.column = 2
-                    this.$nextTick(() => {
-                        card.column = 3
-                        card.completedAt = card.lastCheckedAt || new Date().toISOString()
-                        this.saveToStorage()
-                    })
+                    this.saveToStorage()
                 } else {
                     alert('Вторая колонка заполнена (макс. 5 карточек)')
                 }
