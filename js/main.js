@@ -78,7 +78,7 @@ Vue.component('note-card', {
             if (this.card.column === 3 && this.progress === 100) {
                 return 'completed'
             }
-            if (this.card.column === 1 && this.progress > 50) {
+            if (this.card.column === 1 && this.progress >= 50) {
                 return 'half-completed'
             }
             return ''
