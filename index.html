@@ -1,87 +1,20 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BW Component Task Manager</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>qweqwe</title>
+    
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-
-<div id="app">
-    
-    <header class="app-header">
-        <h1>TASK_MANAGER_V2.0_COMPONENTS</h1>
-    </header>
-
-    <div class="main-container">
-        
-        <note-form 
-            :is-blocked="isBlocked" 
-            :col1-count="col1.length"
-            @create-note="addNote"
-        ></note-form>
-
-        <div class="board">
-            
-            <div class="col" :class="{ 'blocked': isBlocked }">
-                <div class="col-head">
-                    <span>01. NEW</span>
-                    <span class="counter">[{{ col1.length }}/3]</span>
-                </div>
-                <div class="col-content">
-                    <div v-if="isBlocked" class="alert-box">
-                        !!! BLOCKED: CLEAR COL_02 !!!
-                    </div>
-
-                    <note-card
-                        v-for="note in col1"
-                        :key="note.id"
-                        :note="note"
-                        :disabled="isBlocked"
-                        @update-progress="handleCardUpdate(note, 1)"
-                    ></note-card>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="col-head">
-                    <span>02. PROCESSING</span>
-                    <span class="counter">[{{ col2.length }}/5]</span>
-                </div>
-                <div class="col-content">
-                    <note-card
-                        v-for="note in col2"
-                        :key="note.id"
-                        :note="note"
-                        :disabled="false"
-                        @update-progress="handleCardUpdate(note, 2)"
-                    ></note-card>
-                </div>
-            </div>
-
-            <div class="col col-done">
-                <div class="col-head">
-                    <span>03. COMPLETED</span>
-                    <span class="counter">[{{ col3.length }}]</span>
-                </div>
-                <div class="col-content">
-                    <note-card
-                        v-for="note in col3"
-                        :key="note.id"
-                        :note="note"
-                        :completed="true"
-                    ></note-card>
-                </div>
-            </div>
-
-        </div>
-
+    <div class="app">
+        <product></product>
     </div>
-</div>
 
-<script src="js/main.js"></script>
-<script src="js/vue.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
