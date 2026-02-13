@@ -1,0 +1,165 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace; 
+    margin: 0;
+    padding: 20px;
+}
+
+.columns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.column {
+    background-color: #000;
+    border: 1px solid #fff;
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 15px;
+    position: relative; 
+    min-height: 400px;
+}
+
+.column h3 {
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.card {
+    border: 1px solid #555;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #000;
+    transition: 0.3s;
+}
+
+.card:hover {
+    border-color: #fff;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    border-bottom: none;
+    text-align: left;
+    outline: none;
+    cursor: text;
+}
+
+.card h3:focus {
+    text-decoration: underline;
+}
+
+.items-count {
+    font-size: 0.8em;
+    margin-bottom: 10px;
+    color: #888;
+    text-align: right;
+}
+
+.error-text {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.list-item input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #fff; 
+}
+
+.list-item span.checked {
+    text-decoration: line-through;
+    color: #777;
+}
+
+input[type="text"] {
+    background-color: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 5px;
+    width: 60%;
+    font-family: inherit;
+    outline: none;
+}
+
+button {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background-color: #000;
+    color: #fff;
+}
+
+button:disabled {
+    background-color: #333;
+    border-color: #333;
+    color: #777;
+    cursor: not-allowed;
+}
+
+.completion-date {
+    margin-top: 15px;
+    font-size: 0.7em;
+    border-top: 1px dashed #555;
+    padding-top: 5px;
+    color: #aaa;
+}
+
+.column.blocked {
+    border-color: #333;
+}
+
+.blocked-overlay {
+    background-color: #000;
+    border: 1px dashed #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.card.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.limits {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #777;
+}
+
+.card.completed {
+    border-color: #fff;
+    border-style: double;
+}
+
+.card.half-completed {
+    border-left: 5px solid #fff;
+}
